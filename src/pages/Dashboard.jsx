@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewWillEnter, IonChip, IonCard, IonLabel, IonRow, IonCol, IonBadge, IonItem, IonButton } from '@ionic/react';
+import React, { useState, useRef } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewWillEnter, IonChip, IonCard, IonLabel, IonRow, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Dashboard.css';
 
@@ -15,6 +15,9 @@ function doRefresh(e) {
   }, 2000);
 }
 
+let deferredPrompt;
+
+
 
 
 const Dashboard = () => {
@@ -22,12 +25,21 @@ const Dashboard = () => {
   const [matches, setMatches] = useState(0);
   const [winMatches, setWinMatches] = useState(0);
   const winningPercentage = (winMatches / matches) * 100;
-  useIonViewWillEnter(async () => {
-    
-    
+  const install = useRef(null)
+  useIonViewDidEnter(() => {
+    const x = document.getElementById('installbtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      deferredPrompt = e;
+      
+      
+      x.classList.toggle('ion-hide', false)
+    });
 
-    
-  })
+    window.addEventListener('appinstalled', (event) => {
+      console.log('👍', 'appinstalled', event);
+    });
+
+  });
 
 
   
@@ -44,7 +56,23 @@ const Dashboard = () => {
           <IonRefresherContent pullingIcon={arrowDownSharp} pullingText='Pull to refresh' refreshingSpinner='crescent'></IonRefresherContent>
         </IonRefresher> */}
         <div className="container">
-          <IonButton expand='full' id='installbtn' className='ion-margin'  > Install App</IonButton>
+          <IonButton expand='full' ref={install} id='installbtn' className='ion-margin ion-hide'
+            onClick={() => {
+              const promptEvent = deferredPrompt;
+              const x = document.getElementById('installbtn');
+              if (!promptEvent) {
+                return;
+              }
+              promptEvent.prompt();
+              promptEvent.userChoice.then((result) => {
+                console.log('👍', 'userChoice', result);
+                deferredPrompt = null;
+                x.classList.toggle('ion-hide', true);
+
+              });
+
+            }
+          }> Install App</IonButton>
           <IonCard className='card-content-md total-cases'>
             <h2>Power Play</h2>
             <IonItem class=''>

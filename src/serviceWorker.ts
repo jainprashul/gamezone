@@ -10,6 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -38,10 +39,7 @@ export function register(config?: Config) {
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
     }
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      deferredPrompt = e;
-    });
+    
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
@@ -147,3 +145,5 @@ export function unregister() {
     });
   }
 }
+
+
