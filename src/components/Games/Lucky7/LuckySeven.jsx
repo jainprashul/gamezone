@@ -83,7 +83,7 @@ const LuckySeven = () => {
   }
 
   const bettingSet = (val) => {
-    if ((bet <= 10) && (val < 0)) {
+    if ((bet <= 10) && (val < 0) && (bet>= 50)) {
     } else {
       setBet(bet + val);
     }

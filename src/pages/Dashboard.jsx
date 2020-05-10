@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewWillEnter, IonChip, IonCard, IonLabel, IonRow, IonCol, IonBadge, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewWillEnter, IonChip, IonCard, IonLabel, IonRow, IonCol, IonBadge, IonItem, IonButton } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Dashboard.css';
 
@@ -39,11 +39,12 @@ const Dashboard = () => {
           <IonTitle>Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <IonRefresher slot='fixed' onIonRefresh={doRefresh}>
+      <IonContent className="ion-padding">
+        {/* <IonRefresher slot='fixed' onIonRefresh={doRefresh}>
           <IonRefresherContent pullingIcon={arrowDownSharp} pullingText='Pull to refresh' refreshingSpinner='crescent'></IonRefresherContent>
-        </IonRefresher>
+        </IonRefresher> */}
         <div className="container">
+          <IonButton expand='full' id='installbtn' className='ion-margin'  > Install App</IonButton>
           <IonCard className='card-content-md total-cases'>
             <h2>Power Play</h2>
             <IonItem class=''>
