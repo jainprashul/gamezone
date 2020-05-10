@@ -1,0 +1,7 @@
+{
+  "name": "Corona GO",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

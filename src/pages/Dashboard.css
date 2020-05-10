@@ -1,0 +1,15 @@
+ion-content ion-toolbar {
+  --background: translucent;
+}
+
+.total-cases ion-item {
+  text-align: center;
+}
+
+.total-cases h2 {
+  text-align: center;
+}
+
+.total-cases ion-col ion-badge {
+  display: inline-block;
+}
