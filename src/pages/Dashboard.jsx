@@ -2,6 +2,7 @@ import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
 import './Dashboard.css';
 import { getConfig } from '../components/Config';
+import ReactAudioPlayer from 'react-audio-player';
 
 let deferredPrompt;
 
@@ -24,6 +25,7 @@ const Dashboard = () => {
 
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
+
     });
 
   });
@@ -82,8 +84,18 @@ const Dashboard = () => {
             </IonItem>
             
           </IonCard>
+
+          <ReactAudioPlayer
+            src='https://files.freemusicarchive.org/storage-freemusicarchive-org/music/WFMU/BoxCat_Games/Nameless_The_Hackers_RPG_Soundtrack/BoxCat_Games_-_16_-_Love_Of_My_Life.mp3'
+            autoPlay
+            loop
+            volume={0.3}
+          ></ReactAudioPlayer>
           
         </div>
+
+
+        
         
       </IonContent>
     </IonPage>

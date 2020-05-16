@@ -7,6 +7,7 @@ import { getConfig, setConfig } from '../../Config'
 
 let Dice;
 let prevBetOption;
+let audio = new Audio('https://retired.sounddogs.com/previews/101/mp3/117912_SOUNDDOGS__di.mp3');
 const LuckySeven = () => {
   let { walletBal ,winningAmt, matches, winMatches } = getConfig();
   const [rolling, setRolling] = useState(false);
@@ -50,6 +51,7 @@ const LuckySeven = () => {
     setRolling(true);
     // let x = getRandomInt(2, 12)
     Dice.rollAll();
+    audio.play();
 
     setTimeout(() => {
       setRolling(false);
