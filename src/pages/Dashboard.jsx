@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
 import './Dashboard.css';
+import { getConfig } from '../components/Config';
 
 let deferredPrompt;
 
 const Dashboard = () => {
-  const [winningAmt, setWinningAmt] = useState(0)
-  const [matches, setMatches] = useState(0);
-  const [winMatches, setWinMatches] = useState(0);
+  const { username, winningAmt, matches, winMatches } = getConfig();
+  // const [winningAmt, setWinningAmt] = useState(0)
+  // const [matches, setMatches] = useState(0);
+  // const [winMatches, setWinMatches] = useState(0);
   const winningPercentage = (winMatches / matches) * 100;
   useIonViewDidEnter(() => {
 
@@ -23,17 +25,6 @@ const Dashboard = () => {
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
     });
-
-    console.log('fetch api');
-
-    fetch('/api/json').then(async (res) => {
-      console.log(res);
-      
-      const r = await res.json();
-      console.log(r);
-      
-    })
-
 
   });
 
@@ -69,6 +60,10 @@ const Dashboard = () => {
 
             }
           }> Install App</IonButton>
+          <div className="center">
+            <h1 className='center'>Welcome {username}</h1>
+
+          </div>
           <IonCard className='card-content-md total-cases'>
             <h2>Power Play</h2>
             <IonItem class=''>
@@ -81,7 +76,7 @@ const Dashboard = () => {
                 <p>Matches Played</p>
               </IonCol>
               <IonCol>
-                <IonBadge color='success'>{winningPercentage ? winningPercentage : 0} %</IonBadge>
+                <IonBadge color='success'>{winningPercentage ? (winningPercentage).toFixed(2) : 0} %</IonBadge>
                 <p className=''>Winning Percentage</p>
               </IonCol>
             </IonItem>

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonActionSheet, useIonViewDidEnter, IonModal, IonCardTitle, IonItem, IonInput } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, useIonViewDidEnter, IonModal, IonCardTitle, IonItem, IonInput } from '@ionic/react';
 import './Wallet.css';
 import { personCircleOutline, play, close } from 'ionicons/icons';
 import { onBuyClicked } from '../components/Payments/GooglePay/gpay';
 import { actionSheetController } from '@ionic/core';
 import { alertController} from '@ionic/core'
-import { useLocalStorage } from '../components/Hooks';
+import { getConfig, setConfig } from '../components/Config';
 const getTXNData = ()=> {
   const search = sessionStorage.getItem('txndetails');
   let data;
@@ -14,15 +14,15 @@ const getTXNData = ()=> {
     console.log(data);
     return data;
   } else {
-    console.log("Required Data Doesn't exist");
   }
   return false;
 }
 
 const Wallet = () => {
   const [model, setModel] = useState(false);
-  const [walletBal, setWalletBal] = useLocalStorage('wbal', 0);
-  useIonViewDidEnter(() => {
+  let { walletBal } = getConfig();
+  const [balance, setbalance] = useState(walletBal);
+  useEffect(() => {
     const txn = getTXNData();
     if (txn && txn.STATUS === "TXN_SUCCESS") {
       alertController.create({
@@ -30,11 +30,19 @@ const Wallet = () => {
         message: `Rs. ${txn.TXNAMOUNT} has been added to wallet.`,
         buttons: ['OK']
       }).then(res => res.present());
-      setWalletBal((walletBal + parseFloat(txn.TXNAMOUNT)));
+      let newbal = (balance + parseFloat(txn.TXNAMOUNT));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      walletBal = setConfig('walletBal', newbal);
+      setbalance(walletBal);
     }
     sessionStorage.removeItem('txndetails');
-  })
+    
 
+    return () => {
+      setbalance(walletBal)
+    }
+  });
+  
   const PaymentModel = () => (
     <IonModal isOpen={model}>
       <IonCard>
@@ -109,7 +117,7 @@ const Wallet = () => {
               <IonIcon className='ico' icon={personCircleOutline}></IonIcon>
               <IonLabel>User</IonLabel>
             </IonAvatar>
-            <h1>&#8377; {walletBal}</h1>
+            <h1>&#8377; {balance}</h1>
             <br/>
             <IonButton expand='full' onClick={()=>{paymentHandler(10)}}>Add Balance</IonButton>
           </IonCardContent>

@@ -39,17 +39,17 @@ import GameBox from './components/GameBox';
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      
-      <IonTabs>
+
+      <IonTabs >
         <IonRouterOutlet>
           <Route path="/gameList" component={Games} exact={true} />
 
           <Route path="/dashboard" component={Dashboard} exact={true} />
-          <Route path="/account" component={Wallet} />
+          <Route path="/wallet" component={Wallet} />
           <Route  path="/game/lucky7" render={() => (<GameBox name='Lucky 7' component={LuckySeven} />)} />
           <Route path="/" render={() => <Redirect to="/dashboard" />} exact={true} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+        <IonTabBar  slot="bottom">
           <IonTabButton tab="tab1" href="/gameList">
             <IonIcon icon={gameController} />
             <IonLabel>Games</IonLabel>
@@ -58,7 +58,7 @@ const App: React.FC = () => (
             <IonIcon icon={menu} />
             <IonLabel>Dashboard</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/account">
+          <IonTabButton tab="tab3" href="/wallet">
             <IonIcon icon={wallet} />
             <IonLabel>Wallet</IonLabel>
           </IonTabButton>

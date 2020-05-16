@@ -13,3 +13,7 @@ ion-content ion-toolbar {
 .total-cases ion-col ion-badge {
   display: inline-block;
 }
+
+.center {
+  text-align: center;
+}

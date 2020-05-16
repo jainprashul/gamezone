@@ -1,5 +1,5 @@
 import React from 'react'
-import { IonPage, IonHeader, IonTitle, IonBackButton, IonContent, IonToolbar, IonTab, IonButtons } from '@ionic/react'
+import { IonPage, IonHeader, IonTitle, IonBackButton, IonContent, IonToolbar, IonButtons } from '@ionic/react'
 
 
 

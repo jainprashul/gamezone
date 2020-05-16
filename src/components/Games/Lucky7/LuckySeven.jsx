@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import { IonButton, IonSegment, IonSegmentButton } from '@ionic/react'
 import ReactDice from 'react-dice-complete'
 import 'react-dice-complete/dist/react-dice-complete.css'
 import { toastController, alertController} from '@ionic/core'
-import {getRandomInt} from './gameLogic'
+import { getConfig, setConfig } from '../../Config'
 
 let Dice;
 const LuckySeven = () => {
-
+  let { walletBal ,winningAmt, matches, winMatches } = getConfig();
   const [rolling, setRolling] = useState(false);
   const [rollingHistory, setRollingHistory] = useState([])
   const [betOption, setBetOption] = useState(null);
-  const [val, setVal] = useState(0);
-  const [bet, setBet] = useState(10);
+  const [betoptionCount, setBetoptionCount] = useState(0)
+  const [bet, dispatch] = useReducer(betReducer, 10);
+
+  useEffect(() => {
+    const tabbar= document.querySelector("ion-tab-bar");
+    tabbar.classList.toggle('ion-hide', true);
+    return () => {
+      tabbar.classList.toggle('ion-hide', false);
+    }
+  }, [])
 
 
   const roll = () => {
@@ -26,9 +34,19 @@ const LuckySeven = () => {
       }).then(res => res.present());
       return;
     }
+
+    if (bet > walletBal) {
+      toastController.create({
+        color: 'danger',
+        duration: 1000,
+        message: `Add amount to Play. Available Balance : ${walletBal}`,
+        position: "bottom",
+
+      }).then(res => res.present());
+      return;
+    }
     setRolling(true);
     // let x = getRandomInt(2, 12)
-    // setVal(x);
     Dice.rollAll();
 
     setTimeout(() => {
@@ -37,9 +55,11 @@ const LuckySeven = () => {
   }
 
   const rollDone = (num) => {
-    setVal(num);
+
+    // setVal(num);
     setRollingHistory([...rollingHistory, num])
     checkBetting(num);
+    matches = setConfig('matches', matches + 1);
   }
 
   const alertCall= (bool, betMutiplier)=> {
@@ -50,12 +70,20 @@ const LuckySeven = () => {
         message: ` Win Rs. ${bet * betMutiplier}`,
         buttons: ['OK']
       }).then(t => t.present());
+
+      // save values 
+      winMatches = setConfig('winMatches', winMatches + 1);
+      winningAmt = setConfig('winningAmt', winningAmt + (bet * betMutiplier));
+      walletBal = setConfig('walletBal', walletBal + (bet * betMutiplier));
+      
     } else {
       alertController.create({
         header: 'You Lose !',
         message: ` Loses Rs. ${bet }`,
         buttons: ['OK']
       }).then(t => t.present());
+      walletBal = setConfig('walletBal', walletBal - bet);
+
     }
   }
 
@@ -82,12 +110,26 @@ const LuckySeven = () => {
     }
   }
 
-  const bettingSet = (val) => {
-    if ((bet <= 10) && (val < 0) && (bet>= 50)) {
-    } else {
-      setBet(bet + val);
+  function betReducer(state, action) {
+    let minBet = 10;
+    let maxBet = 100;
+    let step = 10;
+
+    // eslint-disable-next-line default-case
+    switch (action.type) {
+      case '+':
+        if (state === maxBet) { return state }
+        return state + step;
+      case '-':
+        if (state === minBet) { return state }
+        return state - step;
+      default:
+        throw new Error();
+      
     }
   }
+
+
   return (
     <div className='ion-text-center'>
 
@@ -119,9 +161,9 @@ const LuckySeven = () => {
       <h5>Bet Lagao , Jeet K Jaao</h5>
 
       <p>
-        <IonButton size='small' shape='round' onClick={()=> bettingSet(-10)}><strong>-</strong></IonButton>
+        <IonButton size='small' shape='round' onClick={() => dispatch({type: '-'})}><strong>-</strong></IonButton>
           <span style={{ fontSize: '40px' }}>  &#8377; {bet} </span>
-        <IonButton size='small' shape='round' onClick={() => bettingSet(10)}><strong>+</strong></IonButton>
+        <IonButton size='small' shape='round' onClick={() => dispatch({type: '+'})}><strong>+</strong></IonButton>
       </p>
 
       
@@ -136,6 +178,11 @@ const LuckySeven = () => {
       />
       <IonButton disabled={rolling} size='large' shape='round' onClick={roll}>Roll</IonButton>
 
+      <p>
+        {rollingHistory.map((val , i) => (
+          <span key={i}>{val} </span>
+        ))}
+      </p>
     </div>
   )
 }
