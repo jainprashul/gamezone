@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, useIonViewDidEnter, IonModal, IonCardTitle, IonItem, IonInput } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonModal, IonCardTitle, IonItem, IonInput } from '@ionic/react';
 import './Wallet.css';
 import { personCircleOutline, play, close } from 'ionicons/icons';
 import { onBuyClicked } from '../components/Payments/GooglePay/gpay';

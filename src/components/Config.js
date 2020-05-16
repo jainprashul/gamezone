@@ -3,7 +3,8 @@ let Config = {
     walletBal: 0,
     winningAmt: 0,
     matches: 0, 
-    winMatches: 0
+    winMatches: 0,
+    firstTime : true
 }
 
 /** Check & Initailize Configuration */

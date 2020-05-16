@@ -6,12 +6,12 @@ import { toastController, alertController} from '@ionic/core'
 import { getConfig, setConfig } from '../../Config'
 
 let Dice;
+let prevBetOption;
 const LuckySeven = () => {
   let { walletBal ,winningAmt, matches, winMatches } = getConfig();
   const [rolling, setRolling] = useState(false);
   const [rollingHistory, setRollingHistory] = useState([])
   const [betOption, setBetOption] = useState(null);
-  const [betoptionCount, setBetoptionCount] = useState(0)
   const [bet, dispatch] = useReducer(betReducer, 10);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const LuckySeven = () => {
   }, [])
 
 
-  const roll = () => {
+  function roll () {
     if (betOption == null) {
       toastController.create({
         color: 'warning',
@@ -34,6 +34,8 @@ const LuckySeven = () => {
       }).then(res => res.present());
       return;
     }
+
+    
 
     if (bet > walletBal) {
       toastController.create({
@@ -60,6 +62,8 @@ const LuckySeven = () => {
     setRollingHistory([...rollingHistory, num])
     checkBetting(num);
     matches = setConfig('matches', matches + 1);
+    
+    
   }
 
   const alertCall= (bool, betMutiplier)=> {
@@ -88,6 +92,9 @@ const LuckySeven = () => {
   }
 
   const checkBetting = (value) => {
+    // setBetOption(null);
+    
+
     switch (betOption) {
       case 'lessThan7':
         alertCall(value < 7, 1.5);
