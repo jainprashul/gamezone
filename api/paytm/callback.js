@@ -33,7 +33,7 @@ module.exports = (req, res) => {
         console.log("Checksum Result => ", result, "\n");
         html += "<b>Checksum Result</b> => " + (result ? "True" : "False");
         html += "<br/><br/>";
-        html += `<script type="text/javascript">window.sessionStorage.setItem("txndetails", '${sendData}'); window.location.href = "/account" ; </script>`
+        html += `<script type="text/javascript">window.sessionStorage.setItem("txndetails", '${sendData}'); window.location.href = "/wallet" ; </script>`
 
         // // Send Server-to-Server request to verify Order Status
         // var params = { "MID": PaytmConfig.mid, "ORDERID": post_data.ORDERID };
