@@ -43,6 +43,7 @@ const App: React.FC = () => (
       <IonTabs>
         <IonRouterOutlet>
           <Route path="/gameList" component={Games} exact={true} />
+
           <Route path="/dashboard" component={Dashboard} exact={true} />
           <Route path="/account" component={Wallet} />
           <Route  path="/game/lucky7" render={() => (<GameBox name='Lucky 7' component={LuckySeven} />)} />

@@ -1,43 +1,39 @@
-import React, { useState, useRef } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewWillEnter, IonChip, IonCard, IonLabel, IonRow, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
 import './Dashboard.css';
 
-import { IonRefresher, IonRefresherContent } from '@ionic/react';
-import { arrowDownSharp } from 'ionicons/icons';
-
-function doRefresh(e) {
-  console.log('Begin async operation');
-
-  setTimeout(() => {
-    console.log('Async operation has ended');
-    e.detail.complete();
-  }, 2000);
-}
-
 let deferredPrompt;
-
-
-
 
 const Dashboard = () => {
   const [winningAmt, setWinningAmt] = useState(0)
   const [matches, setMatches] = useState(0);
   const [winMatches, setWinMatches] = useState(0);
   const winningPercentage = (winMatches / matches) * 100;
-  const install = useRef(null)
   useIonViewDidEnter(() => {
+
+    // install pwa 
     const x = document.getElementById('installbtn');
     window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
       deferredPrompt = e;
-      
-      
-      x.classList.toggle('ion-hide', false)
-    });
+      x.classList.toggle('ion-hide', false);
+
+     });
 
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
     });
+
+    console.log('fetch api');
+
+    fetch('/api/json').then(async (res) => {
+      console.log(res);
+      
+      const r = await res.json();
+      console.log(r);
+      
+    })
+
 
   });
 
@@ -56,7 +52,7 @@ const Dashboard = () => {
           <IonRefresherContent pullingIcon={arrowDownSharp} pullingText='Pull to refresh' refreshingSpinner='crescent'></IonRefresherContent>
         </IonRefresher> */}
         <div className="container">
-          <IonButton expand='full' ref={install} id='installbtn' className='ion-margin ion-hide'
+          <IonButton expand='full' id='installbtn' className='ion-margin ion-hide'
             onClick={() => {
               const promptEvent = deferredPrompt;
               const x = document.getElementById('installbtn');

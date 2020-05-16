@@ -50,6 +50,7 @@
   },
   "description": "An Ionic project",
   "devDependencies": {
-    "@capacitor/cli": "2.0.2"
+    "@capacitor/cli": "2.0.2",
+    "@now/node": "^1.6.1"
   }
 }
