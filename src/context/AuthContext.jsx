@@ -13,7 +13,7 @@ const AuthContextProvider = (props) => {
         // console.log('authcontext', authUser);
         
         let listener = firebase.auth.onAuthStateChanged(user => {
-            console.log('from change state', user);
+            console.log('from change state');
             
             user ? setAuthUser(user) : setAuthUser(null);
             // user ? setConfig('user', user) : setConfig('user', null);

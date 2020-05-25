@@ -11,7 +11,7 @@ let Dice;
 let prevBetOption;
 let audio = new Audio('https://retired.sounddogs.com/previews/101/mp3/117912_SOUNDDOGS__di.mp3');
 const LuckySeven = ({ setBal }) => {
-  let { walletBal ,winningAmt, matches, winMatches } = getConfig();
+  let { walletBal ,winningAmt, matches, winMatches, firstTime } = getConfig();
   const [rolling, setRolling] = useState(false);
   const [rollingHistory, setRollingHistory] = useState([])
   const [betOption, setBetOption] = useState(null);
@@ -21,7 +21,9 @@ const LuckySeven = ({ setBal }) => {
   useIonViewDidLeave(() => {
     const uid = firebase.getCurrentUserProfile().uid;
     firebase.user(uid).update({
-      stats : getConfig()
+      stats: {
+        walletBal , winningAmt , matches , winMatches, firstTime
+      }
     })
   })
 
@@ -189,6 +191,8 @@ const LuckySeven = ({ setBal }) => {
           <span key={i}>{val} </span>
         ))}
       </p>
+
+      <script src="//servedby.eleavers.com/ads/ads.php?t=MjIyOTQ7MTMwMTg7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
     </div>
   )
 }

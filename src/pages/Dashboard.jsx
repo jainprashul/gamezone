@@ -33,8 +33,10 @@ const Dashboard = ({ history }) => {
       let uid = firebase.getCurrentUserProfile().uid;
       firebase.user(uid).once('value').then(snap => {
         let data = snap.val();
-        console.log(data);
-        localStorage.setItem('config', JSON.stringify(data.stats))
+        let userData = Object.assign(data, data.stats);
+        userData.stats = null;
+        // console.log(userData);
+        localStorage.setItem('config', JSON.stringify(userData))
 
       })
     }, 1500);
@@ -110,7 +112,8 @@ const Dashboard = ({ history }) => {
             loop
             volume={0.3}
           ></ReactAudioPlayer>
-
+          <script src="//servedby.eleavers.com/ads/ads.php?t=MjIyOTQ7MTMwMTg7aG9yaXpvbnRhbC5iYW5uZXI=&index=2"></script>
+          <script src="//servedby.eleavers.com/ads/ads.php?t=MjIyOTQ7MTMwMTg7aG9yaXpvbnRhbC5iYW5uZXI=&index=1"></script>
         </div>
 
 
