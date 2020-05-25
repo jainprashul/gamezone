@@ -40,7 +40,7 @@ class Firebase {
 
     doSignIn = (email, password) => 
         this.auth.signInWithEmailAndPassword(email, password);
-        doSignInWithGoogle = async () => {
+    doSignInWithGoogle = async () => {
         let provider = new firebase.auth.GoogleAuthProvider();
         await this.auth.signInWithRedirect(provider);
         return this.auth.getRedirectResult();
@@ -55,9 +55,11 @@ class Firebase {
 
 /* USer Api */
     
+    /** get current user profile */
     getCurrentUserProfile = () => this.auth.currentUser;
+    /**get user by uid */
     user = uid => this.db.ref(`users/${uid}`);
-
+    /**get all users */
     users = () => this.db.ref('users')
 
     

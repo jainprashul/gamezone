@@ -42,6 +42,7 @@ const App: React.FC = () => {
 
   useFirstTime();
 
+
   return (
     <IonApp>
       <IonReactRouter>

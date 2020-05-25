@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter, IonButtons } from '@ionic/react';
 import './Dashboard.css';
-import { getConfig } from '../components/Config';
+import { getConfig, setConfig } from '../components/Config';
 import ReactAudioPlayer from 'react-audio-player';
 import { FirebaseContext } from '../context/FirebaseContext';
 import withAuthorization from './Auth/withAuthorization';
@@ -27,6 +27,17 @@ const Dashboard = ({ history }) => {
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
     });
+    
+    // get config from firbase
+    setTimeout(async () => {
+      let uid = firebase.getCurrentUserProfile().uid;
+      firebase.user(uid).once('value').then(snap => {
+        let data = snap.val();
+        console.log(data);
+        localStorage.setItem('config', JSON.stringify(data.stats))
+
+      })
+    }, 1500);
 
   });
 

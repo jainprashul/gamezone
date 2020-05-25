@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useState } from 'react'
 import withAuthorization from './Auth/withAuthorization'
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonText, IonItem, IonLabel, IonInput, IonButtons, IonButton, IonIcon } from '@ionic/react'
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonItem, IonLabel, IonInput, IonButtons, IonButton, IonIcon } from '@ionic/react'
 import { FirebaseContext } from '../context/FirebaseContext'
 import { createToast } from '../components/Hooks'
 import { pencil } from 'ionicons/icons'
@@ -46,7 +46,7 @@ const UserProfile = (props) => {
             </IonItem>
             <IonItem>Name : {user.displayName}</IonItem>
             <IonItem>Email : {user.email}</IonItem>
-            {/* <IonItem>Phone : {user.phoneNumber}</IonItem> */}
+            <IonItem>Phone : {user.phoneNumber}</IonItem>
             <IonItem>UID : {user.uid}</IonItem>
             <IonItem>Email Verified : {user.emailVerified ? <span>Done</span> :
                 <a onClick={() => {
