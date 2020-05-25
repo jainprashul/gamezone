@@ -1,15 +1,16 @@
 import React, { useState, useReducer, useContext } from 'react';
-import { IonButton, IonSegment, IonSegmentButton, useIonViewDidLeave } from '@ionic/react';
+import { IonButton, IonSegment, IonSegmentButton, useIonViewDidLeave, IonIcon, IonText } from '@ionic/react';
 import ReactDice from 'react-dice-complete';
 import 'react-dice-complete/dist/react-dice-complete.css';
 import { toastController, alertController } from '@ionic/core';
 import { getConfig, setConfig } from '../../Config';
 import { FirebaseContext } from '../../../context/FirebaseContext';
+import { logoIonic } from 'ionicons/icons';
 
 let Dice;
 let prevBetOption;
 let audio = new Audio('https://retired.sounddogs.com/previews/101/mp3/117912_SOUNDDOGS__di.mp3');
-const LuckySeven = () => {
+const LuckySeven = ({ setBal }) => {
   let { walletBal ,winningAmt, matches, winMatches } = getConfig();
   const [rolling, setRolling] = useState(false);
   const [rollingHistory, setRollingHistory] = useState([])
@@ -65,8 +66,8 @@ const LuckySeven = () => {
     setRollingHistory([...rollingHistory, num])
     checkBetting(num);
     matches = setConfig('matches', matches + 1);
-    
-    
+    setBal(walletBal);
+
   }
 
   const alertCall= (bool, betMutiplier)=> {
@@ -74,7 +75,7 @@ const LuckySeven = () => {
       alertController.create({
         header: 'Yipee You Won !',
         backdropDismiss: false,
-        message: ` Win Rs. ${bet * betMutiplier}`,
+        message: ` Win ${bet * betMutiplier} coins`,
         buttons: ['OK']
       }).then(t => t.present());
 
@@ -86,11 +87,10 @@ const LuckySeven = () => {
     } else {
       alertController.create({
         header: 'You Lose !',
-        message: ` Loses Rs. ${bet }`,
+        message: ` Loses ${bet } coins`,
         buttons: ['OK']
       }).then(t => t.present());
       walletBal = setConfig('walletBal', walletBal - bet);
-
     }
   }
 
@@ -148,19 +148,18 @@ const LuckySeven = () => {
         <IonSegmentButton value='lessThan7'>
           <h2>2 To 6</h2>
           <p>1.5 x amt</p>
-          Jeeto &#8377;{bet * 1.5}
+          <p>Jeeto <IonText color='warning'> <IonIcon size='small' color='warning' icon={logoIonic} /> {bet * 1.5} </IonText></p>
         </IonSegmentButton>
         <IonSegmentButton value='7'>
           <h2>7</h2>
           <p>2 x amt</p>
-          <p>Jeeto &#8377;{bet * 2}</p>
+          <p>Jeeto <IonText color='warning'> <IonIcon size='small' color='warning' icon={logoIonic} /> {bet * 2} </IonText></p>
 
         </IonSegmentButton>
         <IonSegmentButton value='greaterThan7'>
           <h2>8 To 12</h2>
           <p>1.5 x amt</p>
-          Jeeto &#8377;{bet * 1.5}
-
+          <p>Jeeto <IonText color='warning'> <IonIcon size='small' color='warning' icon={logoIonic} /> {bet * 1.5} </IonText></p>
         </IonSegmentButton>
       </IonSegment>
 
@@ -169,7 +168,7 @@ const LuckySeven = () => {
 
       <p>
         <IonButton size='small' shape='round' onClick={() => dispatch({type: '-'})}><strong>-</strong></IonButton>
-          <span style={{ fontSize: '40px' }}>  &#8377; {bet} </span>
+          <IonText color='warning' style={{ fontSize: '40px' }}>  <IonIcon color='warning' icon={logoIonic}/> {bet} </IonText>
         <IonButton size='small' shape='round' onClick={() => dispatch({type: '+'})}><strong>+</strong></IonButton>
       </p>
 

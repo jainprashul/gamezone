@@ -10,7 +10,15 @@ const UserProfile = (props) => {
     const firebase = useContext(FirebaseContext);
     const [user] = useState(() => firebase.getCurrentUserProfile());
     const [editing, setEditing] = useState(false);
-    // console.log(user, props);
+    const [phone, setPhone] = useState('')
+    console.log(user);
+    function updateUserData() {
+        const uid = user.uid;
+        firebase.user(uid).update({
+            name: user.displayName,
+            phone: phone
+        });
+    }
 
     function updatePhoneNumber(num) {
         // 'recaptcha-container' is the ID of an element in the DOM.
@@ -54,10 +62,11 @@ const UserProfile = (props) => {
                 <IonLabel position='stacked'>Name</IonLabel>
                 <IonInput required='true' type='text' id='diplayName' value={user.displayName} onIonInput={e => user.updateProfile({displayName : e.target.value})}></IonInput>
             </IonItem>
-            {/* <IonItem>
-                <IonLabel position='stacked'>Phone </IonLabel>
-                <IonInput required='true' type='text' id='phone' value={user.phoneNumber} onIonInput={e => updatePhoneNumber(e.target.value)}></IonInput>
-            </IonItem> */}
+            <IonItem>
+                <IonLabel position='stacked'>Phone</IonLabel>
+                <IonInput required='true' type='text' id='diplayName' value={phone} onIonInput={e => setPhone(e.target.value)}></IonInput>
+            </IonItem>
+            
             
 
         </div>
@@ -72,7 +81,7 @@ const UserProfile = (props) => {
                     <IonTitle>Profile</IonTitle>
                     <IonButtons slot='end'>
                         <IonButton hidden={editing} onClick={()=> setEditing(true)}><IonIcon icon={pencil}/></IonButton>
-                        <IonButton hidden={!editing} onClick={()=> setEditing(false)}>Done</IonButton>
+                        <IonButton hidden={!editing} onClick={() => { setEditing(false); updateUserData();}}>Done</IonButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

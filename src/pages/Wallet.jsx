@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonModal, IonCardTitle, IonItem, IonInput, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonModal, IonCardTitle, IonItem, IonInput, IonButtons, IonBackButton } from '@ionic/react';
 import './Wallet.css';
-import { personCircleOutline, play, close, settings } from 'ionicons/icons';
+import { personCircleOutline, play, close, settings, logoIonic } from 'ionicons/icons';
 import { onBuyClicked } from '../components/Payments/GooglePay/gpay';
 import { actionSheetController } from '@ionic/core';
 import { alertController} from '@ionic/core'
@@ -105,6 +105,9 @@ const Wallet = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot='start'>
+            <IonBackButton/>
+          </IonButtons>
           <IonTitle>My Account</IonTitle>
           <IonButtons slot='end'>
             <IonButton shape='round' routerLink='/userProfile' >
@@ -123,7 +126,7 @@ const Wallet = () => {
               <IonIcon className='ico' icon={personCircleOutline}></IonIcon>
               <IonLabel>User</IonLabel>
             </IonAvatar>
-            <h1>&#8377; {balance}</h1>
+            <h1><IonIcon size='small' color='warning' icon={logoIonic} />  {balance}</h1>
             <br/>
             <IonButton expand='full' onClick={()=>{paymentHandler(10)}}>Add Balance</IonButton>
           </IonCardContent>
