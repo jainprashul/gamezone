@@ -1,13 +1,13 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { FirebaseContext } from "./FirebaseContext";
-import { setConfig } from "../components/Config";
+// import { setConfig } from "../components/Config";
 
 export const AuthUserContext = createContext();
 
 const AuthContextProvider = (props) => {
     const [authUser, setAuthUser] = useState(null);
     const firebase = useContext(FirebaseContext);
-    setConfig('user', authUser);
+    // setConfig('user', authUser);
 
     useEffect(() => {
         // console.log('authcontext', authUser);
@@ -16,7 +16,7 @@ const AuthContextProvider = (props) => {
             console.log('from change state', user);
             
             user ? setAuthUser(user) : setAuthUser(null);
-            user ? setConfig('user', user) : setConfig('user', null);
+            // user ? setConfig('user', user) : setConfig('user', null);
         },
             (err => console.log(err)
             ));

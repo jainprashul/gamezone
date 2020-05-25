@@ -1,5 +1,4 @@
 let Config = {
-    
     walletBal: 0,
     winningAmt: 0,
     matches: 0, 

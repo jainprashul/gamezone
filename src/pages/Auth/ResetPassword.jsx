@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { IonPage, IonContent, IonCard, IonCardHeader, IonItem, IonLabel, IonCardContent, IonInput, IonButton, IonText, IonTitle, IonHeader, IonToolbar } from '@ionic/react';
 import { Link } from 'react-router-dom';
-import { useTabHide } from '../../Hooks';
-import { FirebaseContext } from '../../../context/FirebaseContext';
+import { useTabHide } from '../../components/Hooks';
+import { FirebaseContext } from '../../context/FirebaseContext';
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('');

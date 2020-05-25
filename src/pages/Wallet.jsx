@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonModal, IonCardTitle, IonItem, IonInput } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonAvatar, IonIcon, IonCardContent, IonLabel, IonButton, IonModal, IonCardTitle, IonItem, IonInput, IonButtons } from '@ionic/react';
 import './Wallet.css';
-import { personCircleOutline, play, close } from 'ionicons/icons';
+import { personCircleOutline, play, close, settings } from 'ionicons/icons';
 import { onBuyClicked } from '../components/Payments/GooglePay/gpay';
 import { actionSheetController } from '@ionic/core';
 import { alertController} from '@ionic/core'
 import { getConfig, setConfig } from '../components/Config';
-import withAuthorization from '../components/FireBase/Auth/withAuthorization';
+import withAuthorization from './Auth/withAuthorization';
 const getTXNData = ()=> {
   const search = sessionStorage.getItem('txndetails');
   let data;
@@ -106,6 +106,11 @@ const Wallet = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>My Account</IonTitle>
+          <IonButtons slot='end'>
+            <IonButton shape='round' routerLink='/userProfile' >
+              <IonIcon icon={settings}></IonIcon>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>

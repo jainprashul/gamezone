@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { IonPage, IonContent, IonCard, IonCardHeader, IonItem, IonLabel, IonCardContent, IonInput, IonButton, IonText, IonTitle, IonHeader, IonToolbar } from '@ionic/react';
+import { IonPage, IonContent, IonCard, IonCardHeader, IonItem, IonLabel, IonCardContent, IonInput, IonButton, IonText, IonTitle, IonHeader, IonToolbar, IonProgressBar } from '@ionic/react';
 import { Link } from 'react-router-dom';
-import { useTabHide, createToast } from '../../Hooks';
-import { FirebaseContext } from '../../../context/FirebaseContext';
-import { Config, setConfig } from '../../Config';
+import { useTabHide, createToast } from '../../components/Hooks';
+import { FirebaseContext } from '../../context/FirebaseContext';
+import { Config, setConfig } from '../../components/Config';
 
 const SignUp = (props) => {
     const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ const SignUp = (props) => {
 
     function onSubmit(e) {
         e.preventDefault();
-
+        setLoading(true);
         if (pwd === repwd) {
             firebase.doCreateUser(email, pwd).then(authUser => {
                 console.log(authUser);
@@ -98,6 +98,8 @@ const SignUp = (props) => {
                             </IonItem>
 
                             <div className="ion-padding">
+                                <IonProgressBar hidden={!loading} type='indeterminate'></IonProgressBar>
+
                                 <IonButton type='submit' size='default' disabled={loading || isInvalid} expand='block'>Sign Up</IonButton>
                             </div>
 

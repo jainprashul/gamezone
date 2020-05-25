@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { IonPage, IonHeader, IonTitle, IonContent, useIonViewDidEnter, useIonViewWillLeave } from '@ionic/react'
 import withAuthorization from './withAuthorization'
-import { FirebaseContext } from '../../../context/FirebaseContext';
+import { FirebaseContext } from '../../context/FirebaseContext';
 import { loadingController } from '@ionic/core';
 const Admin = () => {
 

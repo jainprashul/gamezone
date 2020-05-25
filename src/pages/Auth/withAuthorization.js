@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
-import { FirebaseContext } from '../../../context/FirebaseContext'
-import { useRouter } from '../../Hooks'
+import { FirebaseContext } from '../../context/FirebaseContext'
+import { useRouter } from '../../components/Hooks'
 
 const withAuthorization = Component => props  => {
     

@@ -2,7 +2,7 @@ import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Tab1.css';
 import GameList from '../components/GameList';
-import withAuthorization from '../components/FireBase/Auth/withAuthorization';
+import withAuthorization from './Auth/withAuthorization';
 
 
 

@@ -1,9 +1,10 @@
-import React, { useState, useReducer } from 'react'
-import { IonButton, IonSegment, IonSegmentButton } from '@ionic/react'
-import ReactDice from 'react-dice-complete'
-import 'react-dice-complete/dist/react-dice-complete.css'
-import { toastController, alertController} from '@ionic/core'
-import { getConfig, setConfig } from '../../Config'
+import React, { useState, useReducer, useContext } from 'react';
+import { IonButton, IonSegment, IonSegmentButton, useIonViewDidLeave } from '@ionic/react';
+import ReactDice from 'react-dice-complete';
+import 'react-dice-complete/dist/react-dice-complete.css';
+import { toastController, alertController } from '@ionic/core';
+import { getConfig, setConfig } from '../../Config';
+import { FirebaseContext } from '../../../context/FirebaseContext';
 
 let Dice;
 let prevBetOption;
@@ -14,7 +15,14 @@ const LuckySeven = () => {
   const [rollingHistory, setRollingHistory] = useState([])
   const [betOption, setBetOption] = useState(null);
   const [bet, dispatch] = useReducer(betReducer, 10);
-
+  const firebase = useContext(FirebaseContext);
+  
+  useIonViewDidLeave(() => {
+    const uid = firebase.getCurrentUserProfile().uid;
+    firebase.user(uid).update({
+      stats : getConfig()
+    })
+  })
 
 
   function roll () {
@@ -88,8 +96,6 @@ const LuckySeven = () => {
 
   const checkBetting = (value) => {
     // setBetOption(null);
-    
-
     switch (betOption) {
       case 'lessThan7':
         alertCall(value < 7, 1.5);
@@ -100,7 +106,6 @@ const LuckySeven = () => {
       case 'greaterThan7':
         alertCall(value > 7, 1.5);
         break;
-      
     
       default:
         toastController.create({

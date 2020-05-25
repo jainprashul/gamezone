@@ -1,17 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter, IonButtons } from '@ionic/react';
 import './Dashboard.css';
 import { getConfig } from '../components/Config';
 import ReactAudioPlayer from 'react-audio-player';
 import { FirebaseContext } from '../context/FirebaseContext';
-import withAuthorization from '../components/FireBase/Auth/withAuthorization';
+import withAuthorization from './Auth/withAuthorization';
 
 let deferredPrompt;
 
 const Dashboard = ({ history }) => {
-  const { user, winningAmt, matches, winMatches } = getConfig();
+  const { winningAmt, matches, winMatches } = getConfig();
   const winningPercentage = (winMatches / matches) * 100;
   const firebase = useContext(FirebaseContext);
+  const [user, setUser] = useState(() => {
+    return firebase.getCurrentUserProfile();
+  })
   useIonViewDidEnter(() => {
     // install pwa 
     const x = document.getElementById('installbtn');
@@ -68,7 +71,7 @@ const Dashboard = ({ history }) => {
             }
             }> Install App</IonButton>
           <div className="center">
-            <h1 className='center'>Welcome {user && user.username}</h1>
+            <h1 className='center'>Welcome {user && user.displayName}</h1>
 
           </div>
           <IonCard className='card-content-md total-cases'>

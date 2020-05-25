@@ -1,7 +1,7 @@
 import React from 'react'
 import { IonPage, IonHeader, IonTitle, IonBackButton, IonContent, IonToolbar, IonButtons } from '@ionic/react'
 import { useTabHide } from './Hooks';
-import withAuthorization from './FireBase/Auth/withAuthorization';
+import withAuthorization from '../pages/Auth/withAuthorization';
 
 
 
