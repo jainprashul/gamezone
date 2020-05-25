@@ -1,5 +1,5 @@
 let Config = {
-    username: 'User',
+    
     walletBal: 0,
     winningAmt: 0,
     matches: 0, 
@@ -43,6 +43,6 @@ const resetConfig = () => {
 }
 
 export {
-    setConfig , getConfig , resetConfig
+    setConfig , getConfig , resetConfig, Config
 }
 export default configApp;

@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from 'react'
+import React, { useState, useReducer } from 'react'
 import { IonButton, IonSegment, IonSegmentButton } from '@ionic/react'
 import ReactDice from 'react-dice-complete'
 import 'react-dice-complete/dist/react-dice-complete.css'
@@ -15,13 +15,6 @@ const LuckySeven = () => {
   const [betOption, setBetOption] = useState(null);
   const [bet, dispatch] = useReducer(betReducer, 10);
 
-  useEffect(() => {
-    const tabbar= document.querySelector("ion-tab-bar");
-    tabbar.classList.toggle('ion-hide', true);
-    return () => {
-      tabbar.classList.toggle('ion-hide', false);
-    }
-  }, [])
 
 
   function roll () {

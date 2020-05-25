@@ -1,5 +1,6 @@
 import { useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
 import { useMemo, useState, useEffect } from 'react';
+import { toastController } from '@ionic/core';
 
 // Hook
 export function useLocalStorage(key, initialValue) {
@@ -111,3 +112,26 @@ export function debounce(func, wait, immediate) {
         if (callNow) func.apply(context, args);
     };
 };
+
+
+export function useTabHide() {
+    useEffect(() => {
+        const tabbar = document.querySelector("ion-tab-bar");
+        tabbar.classList.toggle('ion-hide', true);
+        return () => {
+            tabbar.classList.toggle('ion-hide', false);
+        }
+    }, [])
+}
+
+export function createToast(msg, color = 'success') {
+    toastController.create({
+        buttons: [{
+            text: 'OK'
+        }],
+        color: color,
+        duration: 800,
+        position: "bottom",
+        message: msg,
+    }).then(r => r.present()).catch(err => console.log(err));
+}

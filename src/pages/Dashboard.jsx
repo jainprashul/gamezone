@@ -1,43 +1,48 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter } from '@ionic/react';
+import React, { useContext } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter, IonButtons } from '@ionic/react';
 import './Dashboard.css';
 import { getConfig } from '../components/Config';
 import ReactAudioPlayer from 'react-audio-player';
+import { FirebaseContext } from '../context/FirebaseContext';
+import withAuthorization from '../components/FireBase/Auth/withAuthorization';
 
 let deferredPrompt;
 
-const Dashboard = () => {
-  const { username, winningAmt, matches, winMatches } = getConfig();
-  // const [winningAmt, setWinningAmt] = useState(0)
-  // const [matches, setMatches] = useState(0);
-  // const [winMatches, setWinMatches] = useState(0);
+const Dashboard = ({ history }) => {
+  const { user, winningAmt, matches, winMatches } = getConfig();
   const winningPercentage = (winMatches / matches) * 100;
+  const firebase = useContext(FirebaseContext);
   useIonViewDidEnter(() => {
-
     // install pwa 
     const x = document.getElementById('installbtn');
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       x.classList.toggle('ion-hide', false);
-
-     });
+    });
 
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
-
     });
 
   });
 
 
-  
+  function signOut() {
+    firebase.doSignOut().then(res => console.log("SignOUT done")
+    ).catch(err => console.log(err)
+    );
+    // history.push('/')
+  }
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Dashboard</IonTitle>
+          <IonButtons slot='end' >
+            <IonButton onClick={signOut}>Sign Out</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -61,9 +66,9 @@ const Dashboard = () => {
               });
 
             }
-          }> Install App</IonButton>
+            }> Install App</IonButton>
           <div className="center">
-            <h1 className='center'>Welcome {username}</h1>
+            <h1 className='center'>Welcome {user && user.username}</h1>
 
           </div>
           <IonCard className='card-content-md total-cases'>
@@ -82,7 +87,7 @@ const Dashboard = () => {
                 <p className=''>Winning Percentage</p>
               </IonCol>
             </IonItem>
-            
+
           </IonCard>
 
           <ReactAudioPlayer
@@ -91,15 +96,15 @@ const Dashboard = () => {
             loop
             volume={0.3}
           ></ReactAudioPlayer>
-          
+
         </div>
 
 
-        
-        
+
+
       </IonContent>
     </IonPage>
   );
 };
 
-export default Dashboard;
+export default withAuthorization(Dashboard);

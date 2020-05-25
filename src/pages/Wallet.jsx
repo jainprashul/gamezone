@@ -6,6 +6,7 @@ import { onBuyClicked } from '../components/Payments/GooglePay/gpay';
 import { actionSheetController } from '@ionic/core';
 import { alertController} from '@ionic/core'
 import { getConfig, setConfig } from '../components/Config';
+import withAuthorization from '../components/FireBase/Auth/withAuthorization';
 const getTXNData = ()=> {
   const search = sessionStorage.getItem('txndetails');
   let data;
@@ -132,4 +133,4 @@ const Wallet = () => {
 
 
 
-export default Wallet;
+export default withAuthorization(Wallet);

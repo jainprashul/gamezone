@@ -2,7 +2,9 @@ import React from 'react'
 import { IonList, IonItem, IonListHeader } from '@ionic/react'
 import gamelist from './games.json'
 
-const GameList = () => {
+const GameList = (props) => {
+    console.log(props);
+    
     return (
         <IonList>
             <IonListHeader>Games</IonListHeader>

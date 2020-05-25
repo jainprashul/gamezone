@@ -1,19 +1,11 @@
 import React, { useEffect } from 'react';
-import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonIcon,
-  IonLabel,
+  IonTabs,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs
+  IonTabBar
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { wallet, gameController, menu } from 'ionicons/icons';
-import Games from './pages/Games';
-import Dashboard from './pages/Dashboard';
-import Wallet from './pages/Wallet';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -33,43 +25,34 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import LuckySeven from './components/Games/Lucky7/LuckySeven';
-import GameBox from './components/GameBox';
+
 import { alertController } from '@ionic/core'
 import { setConfig, getConfig } from './components/Config';
+import { IonTabButton, IonIcon, IonLabel } from '@ionic/react'
+import { gameController, menu, wallet } from 'ionicons/icons'
+import { Route, Redirect } from 'react-router';
+import Games from './pages/Games';
+import Dashboard from './pages/Dashboard';
+import GameBox from './components/GameBox';
+import LuckySeven from './components/Games/Lucky7/LuckySeven';
+import AccountRoute from './components/FireBase/Navigation/AccountRoute';
+import Wallet from './pages/Wallet';
 
 const App: React.FC = () => {
-  
-  useEffect(() => {
-    let { firstTime } = getConfig()
-    if (firstTime) {
-      alertController.create({
-        header: 'First Time Bonus!',
-        subHeader: '100 coins given.',
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            setConfig('walletBal', 100);
-            setConfig('firstTime', false);
-          }
-        }]
-      }).then(res => res.present());
-      console.log('coins given');
-      
-    }
-  }, []);
-  return(
+
+  useFirstTime();
+
+  return (
     <IonApp>
       <IonReactRouter>
-
         <IonTabs >
           <IonRouterOutlet>
             <Route path="/gameList" component={Games} exact={true} />
-
             <Route path="/dashboard" component={Dashboard} exact={true} />
-            <Route path="/wallet" component={Wallet} />
+            <Route path="/wallet" component={Wallet} exact />
             <Route path="/game/lucky7" render={() => (<GameBox name='Lucky 7' component={LuckySeven} />)} />
             <Route path="/" render={() => <Redirect to="/dashboard" />} exact={true} />
+            <AccountRoute />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="tab1" href="/gameList">
@@ -85,6 +68,7 @@ const App: React.FC = () => {
               <IonLabel>Wallet</IonLabel>
             </IonTabButton>
           </IonTabBar>
+
         </IonTabs>
       </IonReactRouter>
     </IonApp>
@@ -92,3 +76,26 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+
+const useFirstTime = () => {
+
+  useEffect(() => {
+    let { firstTime } = getConfig()
+    if (firstTime) {
+      alertController.create({
+        header: 'First Time Bonus!',
+        subHeader: '100 coins given.',
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            setConfig('walletBal', 100);
+            setConfig('firstTime', false);
+          }
+        }]
+      }).then(res => res.present());
+      console.log('coins given');
+
+    }
+  }, []);
+}

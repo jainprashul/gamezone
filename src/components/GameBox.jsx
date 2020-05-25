@@ -1,11 +1,14 @@
 import React from 'react'
 import { IonPage, IonHeader, IonTitle, IonBackButton, IonContent, IonToolbar, IonButtons } from '@ionic/react'
+import { useTabHide } from './Hooks';
+import withAuthorization from './FireBase/Auth/withAuthorization';
 
 
 
 
 const GameBox = ({component:Game, name , ...rest}) => {
-    
+    useTabHide();
+
     return (
         <IonPage>
             <IonHeader>
@@ -25,6 +28,6 @@ const GameBox = ({component:Game, name , ...rest}) => {
     )
 }
 
-export default GameBox
+export default withAuthorization(GameBox)
 
 
