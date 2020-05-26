@@ -21,7 +21,7 @@ const getTXNData = ()=> {
 
 const Wallet = () => {
   const [model, setModel] = useState(false);
-  let { walletBal, username } = getConfig();
+  let { walletBal, username, email, phone, photoURL } = getConfig();
   const [balance, setbalance] = useState(walletBal);
   
   useEffect(() => {
@@ -57,8 +57,8 @@ const Wallet = () => {
               <IonLabel slot='start'>Amount</IonLabel>
               <IonInput required={true} name='amt' type='number'/>
             </IonItem>
-            <input type='hidden' name='mobile' value='9406707245'/>
-            <input type='hidden' name='email' value='jainprashul@gmail.com' />
+            <input type='hidden' name='mobile' value={phone}/>
+            <input type='hidden' name='email' value={email} />
             
             <IonButton type='submit'>Pay</IonButton>
             <IonButton type='button' onClick={()=>{setModel(false)}}>Cancel</IonButton>
@@ -124,9 +124,12 @@ const Wallet = () => {
           </IonCardHeader>
           <IonCardContent>
             <IonAvatar className='center'>
+              {photoURL ? <img width='90' src={photoURL} alt=''/> : 
               <IonIcon className='ico' icon={personCircleOutline}></IonIcon>
-              <IonLabel>{username}</IonLabel>
+              }
             </IonAvatar>
+            <IonTitle>{username}</IonTitle>
+
             <h1><IonIcon size='small' color='warning' icon={logoIonic} />  {balance}</h1>
             <br/>
             <IonButton expand='full' onClick={()=>{paymentHandler(10)}}>Add Balance</IonButton>

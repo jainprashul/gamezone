@@ -20,7 +20,8 @@ const UserProfile = (props) => {
         firebase.user(uid).update({
             name: user.displayName,
             phone: phoneNo,
-            username: userName
+            username: userName,
+            photoURL: user.photoURL,
         });
     }
 
@@ -49,6 +50,7 @@ const UserProfile = (props) => {
                 </IonAvatar>
             </IonItem>
             <IonItem>Name : {user.displayName}</IonItem>
+            <IonItem>username : {username}</IonItem>
             <IonItem>Email : {user.email}</IonItem>
             <IonItem>Phone : {phoneNo}</IonItem>
             <IonItem>UID : {user.uid}</IonItem>
