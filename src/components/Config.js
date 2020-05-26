@@ -1,9 +1,9 @@
 let Config = {
-    walletBal: 0,
+    walletBal: 100,
     winningAmt: 0,
-    matches: 0, 
+    matches: 0,
     winMatches: 0,
-    firstTime : true
+    firstTime: true
 }
 
 /** Check & Initailize Configuration */
@@ -20,7 +20,7 @@ const configApp = () => {
  * @param key  config[key]
  * @param val  value
 */
-const setConfig = (key , val) => {
+const setConfig = (key, val) => {
     let c = getConfig();
     c[key] = val;
     // console.log(configure);
@@ -31,7 +31,7 @@ const setConfig = (key , val) => {
 /** Get the Configuration Object
  * @default config
  */
- const getConfig = () => {
+const getConfig = () => {
     let c = localStorage.getItem('config')
     return JSON.parse(c)
 }
@@ -42,6 +42,6 @@ const resetConfig = () => {
 }
 
 export {
-    setConfig , getConfig , resetConfig, Config
+    setConfig, getConfig, resetConfig, Config
 }
 export default configApp;
