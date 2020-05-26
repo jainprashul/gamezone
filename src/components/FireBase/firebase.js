@@ -42,8 +42,7 @@ class Firebase {
         this.auth.signInWithEmailAndPassword(email, password);
     doSignInWithGoogle = async () => {
         let provider = new firebase.auth.GoogleAuthProvider();
-        await this.auth.signInWithRedirect(provider);
-        return this.auth.getRedirectResult();
+        return this.auth.signInWithPopup(provider);
     }
 
     doSignOut = () => 

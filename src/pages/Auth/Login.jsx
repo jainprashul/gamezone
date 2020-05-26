@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react'
-import { IonPage, IonContent, IonCard, IonCardHeader, IonItem, IonLabel, IonCardContent, IonInput, IonButton, IonText, IonTitle, IonHeader, IonToolbar, IonProgressBar } from '@ionic/react';
+import { IonPage, IonContent, IonCard, IonCardHeader, IonItem, IonLabel, IonCardContent, IonInput, IonButton, IonText, IonTitle, IonHeader, IonToolbar, IonProgressBar, IonIcon } from '@ionic/react';
 import { Link } from 'react-router-dom';
 import { useTabHide } from '../../components/Hooks';
 import { FirebaseContext } from '../../context/FirebaseContext';
+import { logoGoogle } from 'ionicons/icons';
+import { setConfig, Config, getConfig } from '../../components/Config';
 
 const Login = ({history}) => {
     const [email, setEmail] = useState('');
@@ -22,6 +24,30 @@ const Login = ({history}) => {
         setError(null);
         setPwd('');
     }
+
+    function signwithGoogle() {
+        firebase.doSignInWithGoogle().then(authData => {
+            console.log(authData);
+            // console.log(authData.additionalUserInfo.isNewUser);
+            let isNewUser = authData.additionalUserInfo.isNewUser 
+            setConfig('user', authData.user);
+            if (isNewUser) {
+                return firebase.user(authData.user.uid).update({
+                    email: authData.user.email,
+                    username: (authData.user.email).substring(0, (authData.user.email).indexOf('@')),
+                    stats: Config,
+                });
+            }    
+        }).then(() => {
+            clearStates();
+            history.push('/');
+        }).catch(err => {
+            console.log(err);
+            setError(err.message)
+        });
+    }
+
+
 
     function onSubmit(e) {
         e.preventDefault();
@@ -53,6 +79,7 @@ const Login = ({history}) => {
                     </IonCardHeader>
                     <IonCardContent>
 
+
                         <form onSubmit={onSubmit}>
                             <IonItem>
                                 <IonLabel position='stacked'>Email</IonLabel>
@@ -70,10 +97,16 @@ const Login = ({history}) => {
                             </div>
 
                             {error && <IonText class='red-text' >{error}</IonText>}
+
+
                             <br/>
                             <Link to='/forgot_pwd'>Forgot Password ?</Link>
 
                         </form>
+                        <p>OR</p>
+
+                        <IonButton onClick={signwithGoogle} size='default' expand='block'>Sign IN with <IonIcon icon={logoGoogle} /></IonButton>
+
 
                     </IonCardContent>
                 </IonCard>

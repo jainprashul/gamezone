@@ -5,18 +5,22 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonIte
 import { FirebaseContext } from '../context/FirebaseContext'
 import { createToast } from '../components/Hooks'
 import { pencil } from 'ionicons/icons'
+import { getConfig } from '../components/Config'
 
 const UserProfile = (props) => {
     const firebase = useContext(FirebaseContext);
+    let{username , phone}=getConfig();
     const [user] = useState(() => firebase.getCurrentUserProfile());
     const [editing, setEditing] = useState(false);
-    const [phone, setPhone] = useState('')
+    const [phoneNo, setPhoneNo] = useState(phone);
+    const [userName, setUserName] = useState(username);
     console.log(user);
     function updateUserData() {
         const uid = user.uid;
         firebase.user(uid).update({
             name: user.displayName,
-            phone: phone
+            phone: phoneNo,
+            username: userName
         });
     }
 
@@ -41,12 +45,12 @@ const UserProfile = (props) => {
         <>
             <IonItem className="ion-text-center">
                 <IonAvatar>
-                    <img alt='profile' src={user.photoUrl ? user.photoUrl : "https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"} />
+                    <img alt='profile' src={user.photoURL ? user.photoURL : "https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"} />
                 </IonAvatar>
             </IonItem>
             <IonItem>Name : {user.displayName}</IonItem>
             <IonItem>Email : {user.email}</IonItem>
-            <IonItem>Phone : {user.phoneNumber}</IonItem>
+            <IonItem>Phone : {phoneNo}</IonItem>
             <IonItem>UID : {user.uid}</IonItem>
             <IonItem>Email Verified : {user.emailVerified ? <span>Done</span> :
                 <a onClick={() => {
@@ -64,7 +68,11 @@ const UserProfile = (props) => {
             </IonItem>
             <IonItem>
                 <IonLabel position='stacked'>Phone</IonLabel>
-                <IonInput required='true' type='text' id='diplayName' value={phone} onIonInput={e => setPhone(e.target.value)}></IonInput>
+                <IonInput required='true' type='text' id='phone' value={phoneNo} onIonInput={e => setPhoneNo(e.target.value)}></IonInput>
+            </IonItem>
+            <IonItem>
+                <IonLabel position='stacked'>Username</IonLabel>
+                <IonInput required='true' type='text' id='phone' value={username} onIonInput={e => setUserName(e.target.value)}></IonInput>
             </IonItem>
             
             

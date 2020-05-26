@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCol, IonBadge, IonItem, IonButton, useIonViewDidEnter, IonButtons, useIonViewDidLeave } from '@ionic/react';
 import './Dashboard.css';
 import { getConfig, setConfig } from '../components/Config';
 import ReactAudioPlayer from 'react-audio-player';
@@ -9,7 +9,7 @@ import withAuthorization from './Auth/withAuthorization';
 let deferredPrompt;
 
 const Dashboard = ({ history }) => {
-  const { winningAmt, matches, winMatches } = getConfig();
+  let { winningAmt, matches, winMatches, walletBal, firstTime } = getConfig();
   const winningPercentage = (winMatches / matches) * 100;
   const firebase = useContext(FirebaseContext);
   const [user, setUser] = useState(() => {
@@ -27,21 +27,35 @@ const Dashboard = ({ history }) => {
     window.addEventListener('appinstalled', (event) => {
       console.log('👍', 'appinstalled', event);
     });
-    
+
     // get config from firbase
     setTimeout(async () => {
-      let uid = firebase.getCurrentUserProfile().uid;
+      let usercurrent = firebase.getCurrentUserProfile()
+      let uid = usercurrent && usercurrent.uid;
       firebase.user(uid).once('value').then(snap => {
         let data = snap.val();
         let userData = Object.assign(data, data.stats);
-        userData.stats = null;
+        delete userData.stats;
         // console.log(userData);
         localStorage.setItem('config', JSON.stringify(userData))
+        console.log("Data Loaded & set");
 
       })
     }, 1500);
 
   });
+
+  useIonViewDidLeave(() => {
+    let usercurrent = firebase.getCurrentUserProfile()
+    let uid = usercurrent && usercurrent.uid;
+    console.log('forward to firebase');
+    let { winningAmt, matches, winMatches, walletBal, firstTime } = getConfig();
+    firebase.user(uid).update({
+      stats: {
+        walletBal, winningAmt, matches, winMatches, firstTime
+      }
+    }, (err) => console.log(err));
+  })
 
 
   function signOut() {
@@ -104,6 +118,16 @@ const Dashboard = ({ history }) => {
               </IonCol>
             </IonItem>
 
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-format="fluid"
+              data-ad-layout-key="-fb+5w+4e-db+86"
+              data-ad-client="ca-pub-2188611974126942"
+              data-ad-slot="8488678853"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </IonCard>
 
           <ReactAudioPlayer

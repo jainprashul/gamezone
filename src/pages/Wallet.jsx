@@ -21,8 +21,9 @@ const getTXNData = ()=> {
 
 const Wallet = () => {
   const [model, setModel] = useState(false);
-  let { walletBal } = getConfig();
+  let { walletBal, username } = getConfig();
   const [balance, setbalance] = useState(walletBal);
+  
   useEffect(() => {
     const txn = getTXNData();
     if (txn && txn.STATUS === "TXN_SUCCESS") {
@@ -124,7 +125,7 @@ const Wallet = () => {
           <IonCardContent>
             <IonAvatar className='center'>
               <IonIcon className='ico' icon={personCircleOutline}></IonIcon>
-              <IonLabel>User</IonLabel>
+              <IonLabel>{username}</IonLabel>
             </IonAvatar>
             <h1><IonIcon size='small' color='warning' icon={logoIonic} />  {balance}</h1>
             <br/>

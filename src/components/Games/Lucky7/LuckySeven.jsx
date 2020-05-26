@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useContext } from 'react';
-import { IonButton, IonSegment, IonSegmentButton, useIonViewDidLeave, IonIcon, IonText } from '@ionic/react';
+import { IonButton, IonSegment, IonSegmentButton, IonIcon, IonText } from '@ionic/react';
 import ReactDice from 'react-dice-complete';
 import 'react-dice-complete/dist/react-dice-complete.css';
 import { toastController, alertController } from '@ionic/core';
@@ -18,14 +18,17 @@ const LuckySeven = ({ setBal }) => {
   const [bet, dispatch] = useReducer(betReducer, 10);
   const firebase = useContext(FirebaseContext);
   
-  useIonViewDidLeave(() => {
-    const uid = firebase.getCurrentUserProfile().uid;
-    firebase.user(uid).update({
+  async function updateDataToFirebase() {
+    let usercurrent = await firebase.getCurrentUserProfile()
+    let uid = usercurrent && usercurrent.uid;
+    await firebase.user(uid).update({
       stats: {
-        walletBal , winningAmt , matches , winMatches, firstTime
+        walletBal, winningAmt, matches, winMatches, firstTime
       }
-    })
-  })
+    }, err => console.log(err));
+    console.log('firebase  upddate ');
+  }
+
 
 
   function roll () {
@@ -69,6 +72,7 @@ const LuckySeven = ({ setBal }) => {
     checkBetting(num);
     matches = setConfig('matches', matches + 1);
     setBal(walletBal);
+    updateDataToFirebase();
 
   }
 
