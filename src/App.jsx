@@ -40,7 +40,7 @@ import AccountRoute from './components/FireBase/Navigation/AccountRoute';
 import Wallet from './pages/Wallet';
 import { FirebaseContext } from './context/FirebaseContext';
 
-const App: React.FC = () => {
+const App = () => {
   const firebase = useContext(FirebaseContext);
 
   useIonViewDidLeave(() => {
