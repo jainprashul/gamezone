@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTabHide } from '../../components/Hooks';
 import { FirebaseContext } from '../../context/FirebaseContext';
 import { logoGoogle } from 'ionicons/icons';
-import { setConfig, Config, getConfig } from '../../components/Config';
+import { setConfig, Config } from '../../components/Config';
 
 const Login = ({history}) => {
     const [email, setEmail] = useState('');

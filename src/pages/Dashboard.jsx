@@ -45,17 +45,7 @@ const Dashboard = ({ history }) => {
 
   });
 
-  useIonViewDidLeave(() => {
-    let usercurrent = firebase.getCurrentUserProfile()
-    let uid = usercurrent && usercurrent.uid;
-    console.log('forward to firebase');
-    let { winningAmt, matches, winMatches, walletBal, firstTime } = getConfig();
-    firebase.user(uid).update({
-      stats: {
-        walletBal, winningAmt, matches, winMatches, firstTime
-      }
-    }, (err) => console.log(err));
-  })
+  
 
 
   function signOut() {

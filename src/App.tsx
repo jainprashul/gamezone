@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import {
   IonApp,
   IonTabs,
   IonRouterOutlet,
-  IonTabBar
+  IonTabBar,
+  useIonViewDidLeave
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 
@@ -37,11 +38,22 @@ import GameBox from './components/GameBox';
 import LuckySeven from './components/Games/Lucky7/LuckySeven';
 import AccountRoute from './components/FireBase/Navigation/AccountRoute';
 import Wallet from './pages/Wallet';
+import { FirebaseContext } from './context/FirebaseContext';
 
 const App: React.FC = () => {
+  const firebase = useContext(FirebaseContext);
 
-  useFirstTime();
-
+  useIonViewDidLeave(() => {
+    let usercurrent = firebase.getCurrentUserProfile()
+    let uid = usercurrent && usercurrent.uid;
+    console.log('forward to firebase');
+    let { winningAmt, matches, winMatches, walletBal, firstTime } = getConfig();
+    firebase.user(uid).update({
+      stats: {
+        walletBal, winningAmt, matches, winMatches, firstTime
+      }
+    }, (err) => console.log(err));
+  })
 
   return (
     <IonApp>
