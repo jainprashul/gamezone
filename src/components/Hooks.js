@@ -124,13 +124,15 @@ export function useTabHide() {
     }, [])
 }
 
-export function createToast(msg, color = 'success') {
+/** Create Toast to display */
+export function createToast(msg, color = 'success' , duration=800, fun=()=>{}) {
     toastController.create({
         buttons: [{
-            text: 'OK'
+            text: 'OK',
+            handler: fun
         }],
         color: color,
-        duration: 800,
+        duration: duration,
         position: "bottom",
         message: msg,
     }).then(r => r.present()).catch(err => console.log(err));
